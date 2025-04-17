@@ -1,0 +1,73 @@
+{% extends 'partials/base.html' %}
+
+{% block title %}Gerenciamento de Usuários - Metamode{% endblock %}
+
+{% block body_class %}bg-gray-50 flex h-[100dvh]{% endblock %}
+
+{% block content %}
+  <main class="flex-1 p-4 md:p-6 h-[100dvh] overflow-hidden flex flex-col">
+
+    <!-- Título -->
+    <div class="mb-1 text-center">
+      <h2 class="text-xl md:text-2xl font-bold mb-4 text-center md:text-left">
+        Gerenciamento de Usuários
+      </h2>
+    </div>
+
+    <!-- Botão de criar/ocultar formulário -->
+    <div class="flex justify-center mb-6">
+      <button id="toggle-create-user"
+        class="px-4 py-2 border border-blue-600 text-blue-600 text-sm font-medium rounded-lg hover:bg-blue-50 transition duration-200">
+        Ocultar área de criação
+      </button>
+    </div>
+
+    <!-- Formulário de criação -->
+    {% if user.role and user.role.name in ["admin", "superadmin"] %}
+    <div id="create-user-section" class="bg-white p-6 rounded-lg shadow-md mb-8 hidden">
+      {% include 'partials/forms/create_user_form.html' %}
+    </div>
+    {% endif %}
+
+    <!-- Filtros -->
+    <div class="sticky top-0 z-10 bg-gray-50 py-4 mb-4">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <input type="text" id="filtro-texto" placeholder="Pesquisa geral"
+          class="w-full md:w-1/2 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500" />
+        <select id="filtro-status"
+          class="w-full md:w-1/4 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500">
+          <option value="">Todos os Tipos</option>
+          <option value="comum">Usuário Comum</option>
+          <option value="admin">Administrador</option>
+          <option value="superadmin">Super Admin</option>
+          <option value="ativo">Ativo</option>
+          <option value="inativo">Inativo</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Lista de usuários -->
+    <div class="flex-1 overflow-y-auto pr-1">
+      <div id="user-list" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 pb-10">
+        {% for user in users %}
+          {% include 'partials/cards/user_card.html' %}
+        {% endfor %}
+      </div>
+    </div>
+  </main>
+
+  <!-- Modais -->
+  {% include 'partials/modals/user_edit_modal.html' %}
+  {% include 'partials/modals/shared_folders_modal.html' %}
+{% endblock %}
+
+{% block head_extra %}
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script type="module" src="{{ url_for('static', path='js/user/index.js') }}"></script>
+  <script type="module" src="{{ url_for('static', path='js/user/form.js') }}"></script>
+  <script type="module" src="{{ url_for('static', path='js/user/filter.js') }}"></script>
+  <script type="module" src="{{ url_for('static', path='js/user/shared.js') }}"></script>
+  <script type="module" src="{{ url_for('static', path='js/user/toggle_create.js') }}"></script>
+  <script type="module" src="{{ url_for('static', path='js/utils/sidebar_toggle.js') }}"></script>
+  <script type="module" src="{{ url_for('static', path='js/utils/flash_message.js') }}"></script>
+{% endblock %}

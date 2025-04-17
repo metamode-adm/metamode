@@ -1,0 +1,36 @@
+{% extends 'partials/base.html' %}
+
+{% block title %}Pastas de Mídia - Metamode{% endblock %}
+
+{% block body_class %}bg-gray-50 flex h-[100dvh]{% endblock %}
+
+{% block content %}
+  <main class="flex-1 p-4 md:p-6 h-[100dvh] overflow-hidden flex flex-col">
+    <h2 class="text-xl md:text-2xl font-bold mb-4 text-center md:text-left">
+      Pastas de Mídia (Slideshows)
+    </h2>
+
+    <div class="flex-1 overflow-auto">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Card Criar Pasta -->
+        {% include 'partials/cards/slideshow_card_create.html' %}
+
+        <!-- Cards das Pastas -->
+        {% for slideshow in slideshows %}
+          {% include 'partials/cards/slideshow_card.html' %}
+        {% endfor %}
+      </div>
+    </div>
+  </main>
+
+  <!-- Modais -->
+  {% include 'partials/modals/create_slideshow_modal.html' %}
+  {% include 'partials/modals/slideshow_access_modal.html' %}
+{% endblock %}
+
+{% block head_extra %}
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script type="module" src="{{ url_for('static', path='js/slideshow/index.js') }}"></script>
+  <script type="module" src="{{ url_for('static', path='js/utils/sidebar_toggle.js') }}"></script>
+  <script type="module" src="{{ url_for('static', path='js/utils/flash_message.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'partials/base.html' %}
+
+{% block title %}Gerenciar Slideshow - Metamode{% endblock %}
+
+{% block body_class %}bg-gray-50 flex h-[100dvh]{% endblock %}
+
+{% block content %}
+  <main class="flex-1 p-4 md:p-6 h-[100dvh] overflow-hidden flex flex-col">
+
+    {% include 'partials/forms/upload_form.html' %}
+
+    <div class="flex-1 overflow-auto border rounded-lg p-4 bg-white">
+      <div id="mediaGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {% for media in slideshow.media_files %}
+          {% include 'partials/cards/media_card.html' %}
+        {% endfor %}
+      </div>
+    </div>
+
+  </main>
+{% endblock %}
+
+{% block head_extra %}
+  <script>
+    window.slideshowId = {{ slideshow.id }};
+    window.appConfig = {
+      maxUploadSizeMB: {{ max_upload_size_mb }},
+      allowedMediaTypes: {{ allowed_media_types | tojson }},
+    };
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script type="module" src="{{ url_for('static', path='js/media/index.js') }}"></script>
+  <script type="module" src="{{ url_for('static', path='js/utils/sidebar_toggle.js') }}"></script>
+  <script type="module" src="{{ url_for('static', path='js/utils/flash_message.js') }}"></script>
+{% endblock %}

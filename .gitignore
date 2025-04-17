@@ -1,0 +1,83 @@
+# ========================
+# 📦 AMBIENTES VIRTUAIS
+# ========================
+.venv/
+env/
+.venv.bak/
+venv/
+
+# ========================
+# 🔐 VARIÁVEIS DE AMBIENTE
+# ========================
+.env
+.env.*
+
+# ========================
+# 🗃️ BANCO DE DADOS (SQLite, dumps ou temporários)
+# ========================
+*.db
+*.sqlite3
+*.dump
+
+# ========================
+# 🧹 ARQUIVOS TEMPORÁRIOS E LOGS
+# ========================
+*.log
+*.pyc
+__pycache__/
+*.swp
+*.tmp
+*.bak
+
+# ========================
+# 💻 CONFIGURAÇÕES DE IDEs E EDITORES
+# ========================
+.vscode/
+.idea/
+*.code-workspace
+
+# ========================
+# 📁 DEPENDÊNCIAS E BUILD (Front-end)
+# ========================
+node_modules/
+src/frontend/static/dist/
+src/frontend/static/build/
+dist/
+build/
+*.lock
+
+# ========================
+# 📂 UPLOADS E ARQUIVOS GERADOS
+# ========================
+uploads/*
+!uploads/.gitkeep  # mantém a pasta versionada, mas vazia
+
+# ========================
+# 🧪 TESTES E COVERAGE
+# ========================
+.coverage
+htmlcov/
+.tox/
+pytest_cache/
+
+# ========================
+# 🧱 MIGRAÇÕES (Somente arquivos gerados temporariamente)
+# ========================
+migrations/__pycache__/
+migrations/*.pyc
+
+# ========================
+# 🔄 SISTEMAS DE CACHE (npm/yarn/pip)
+# ========================
+.npm/
+.yarn/
+.pnpm-debug.log
+pip-wheel-metadata/
+pip-log.txt
+
+# ========================
+# 🧾 SISTEMAS OPERACIONAIS
+# ========================
+.DS_Store
+Thumbs.db
+desktop.ini

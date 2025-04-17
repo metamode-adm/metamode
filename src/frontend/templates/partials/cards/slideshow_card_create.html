@@ -1,0 +1,20 @@
+<!-- Card para criar nova pasta (estilo de pasta) -->
+<div id="create-folder-btn"
+     class="relative group cursor-pointer aspect-video bg-gradient-to-b from-blue-100 to-blue-200 rounded-lg overflow-hidden shadow-[0_10px_20px_rgba(0,0,0,0.1)] hover:shadow-[0_15px_30px_rgba(0,0,0,0.2)] transition-all duration-300 flex flex-col justify-center items-center">
+
+  <!-- Aba superior da pasta -->
+  <div class="absolute -top-3 left-4 w-24 h-8 bg-blue-500 rounded-t-lg shadow-inner transform -skew-x-6 z-10"></div>
+
+  <!-- Conteúdo central -->
+  <div class="relative z-10 text-center px-4 flex flex-col items-center">
+    <svg xmlns="http://www.w3.org/2000/svg"
+         class="w-8 h-8 mb-2 text-blue-600 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6"
+         fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+    </svg>
+    <span class="text-sm font-medium text-blue-700">Criar Pasta</span>
+  </div>
+
+  <!-- Brilho sutil -->
+  <div class="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none rounded-lg"></div>
+</div>

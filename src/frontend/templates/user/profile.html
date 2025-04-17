@@ -1,0 +1,149 @@
+{% extends 'partials/base.html' %}
+
+{% block title %}Meu Perfil - Metamode{% endblock %}
+
+{% block body_class %}bg-gray-50 flex h-[100dvh]{% endblock %}
+
+{% block content %}
+  <main class="flex-1 p-4 md:p-6 h-[100dvh] overflow-hidden flex flex-col">
+
+    <!-- Título -->
+    <div class="mb-6 text-center">
+      <h2 class="text-xl md:text-2xl font-bold text-center md:text-left">Meu Perfil </h2>
+      <br>
+      <p class="text-sm text-gray-500 text-center md:text-left">Gerencie suas informações pessoais e visualize as pastas compartilhadas com você.</p>
+    </div>
+
+    <!-- Grid 2 colunas -->
+    <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 overflow-y-auto pb-10">
+
+      <!-- Coluna: Formulário -->
+      <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200 space-y-6">
+        <form id="form-profile-completo" class="space-y-6">
+          <!-- Informações do Perfil -->
+          <div>
+            <h3 class="text-lg font-semibold text-gray-700 mb-4">Informações do Perfil</h3>
+
+            <div class="space-y-4">
+              <div>
+                <label for="input-username" class="block text-sm font-medium text-gray-600">Nome de Usuário</label>
+                <input id="input-username" type="text" value="{{ user.username }}"
+                       class="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500" />
+              </div>
+
+              <div>
+                <label for="input-email" class="block text-sm font-medium text-gray-600">Email</label>
+                <input id="input-email" type="email" value="{{ user.email }}"
+                       class="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500" />
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-600">Tipo de Perfil</label>
+                <p class="mt-1 text-gray-800">
+                  {% if user.role %}
+                    {% if user.role.name == "superadmin" %}
+                      <span class="text-red-600 font-semibold">Super Admin</span>
+                    {% elif user.role.name == "admin" %}
+                      <span class="text-blue-600 font-semibold">Administrador</span>
+                    {% else %}
+                      <span class="text-gray-700 font-semibold capitalize">{{ user.role.name }}</span>
+                    {% endif %}
+                  {% else %}
+                    <span class="text-gray-500 italic">Sem perfil atribuído</span>
+                  {% endif %}
+                </p>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-600">Status</label>
+                <p class="mt-1 font-medium {% if user.is_active %}text-green-600{% else %}text-red-600{% endif %}">
+                  {{ "Ativo" if user.is_active else "Inativo" }}
+                </p>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-600">Criado em</label>
+                <p class="mt-1 text-gray-700">{{ user.created_at }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Alterar Senha -->
+          <div>
+            <h3 class="text-lg font-semibold text-gray-700 mb-4">Alterar Senha</h3>
+            <div class="space-y-4">
+              <div>
+                <label for="input-password" class="block text-sm font-medium text-gray-600">Nova Senha</label>
+                <input id="input-password" type="password"
+                       class="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500" />
+              </div>
+              <div>
+                <label for="input-confirm-password" class="block text-sm font-medium text-gray-600">Confirmar Nova Senha</label>
+                <input id="input-confirm-password" type="password"
+                       class="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Botões -->
+          <div class="flex justify-end gap-3 pt-2">
+            <button type="submit"
+                    class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition">
+              Salvar Alterações
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Coluna: Pastas Compartilhadas -->
+      <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200 space-y-4">
+        <h3 class="text-lg font-semibold text-gray-700 mb-4">Pastas Compartilhadas</h3>
+
+        {% if slideshows %}
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {% for slide in slideshows %}
+              <a href="/admin/media/{{ slide.id }}" class="block group relative">
+                <div class="relative pt-4 bg-gradient-to-b from-blue-500 to-blue-600 rounded-lg overflow-hidden shadow-[0_10px_20px_rgba(0,0,0,0.15)] hover:shadow-[0_15px_30px_rgba(0,0,0,0.25)] transition-all duration-300 cursor-pointer">
+                  <div class="px-4 py-3 text-white">
+                    <h4 class="font-semibold text-base truncate group-hover:text-white">{{ slide.title }}</h4>
+                    <p class="text-sm text-white/80 truncate">{{ slide.description or 'Sem descrição' }}</p>
+                  </div>
+
+                  <div class="p-4 bg-white rounded-b-lg">
+                    <div class="bg-gray-50 rounded-lg p-2 shadow-inner">
+                      <div class="flex items-center justify-between text-gray-600 text-sm">
+                        <span>{{ slide.media_count }} mídia{{ slide.media_count != 1 and 's' or '' }}</span>
+                        <span class="flex items-center gap-1">
+                          <svg width="20" height="20" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" class="text-gray-500">
+                            <path fill="#1976D2" d="M38.1,31.2L19.4,24l18.7-7.2c1.5-0.6,2.3-2.3,1.7-3.9c-0.6-1.5-2.3-2.3-3.9-1.7l-26,10C8.8,21.6,8,22.8,8,24 s0.8,2.4,1.9,2.8l26,10c0.4,0.1,0.7,0.2,1.1,0.2c1.2,0,2.3-0.7,2.8-1.9C40.4,33.5,39.6,31.8,38.1,31.2z"/>
+                            <g fill="#1E88E5">
+                              <circle cx="11" cy="24" r="7"/>
+                              <circle cx="37" cy="14" r="7"/>
+                              <circle cx="37" cy="34" r="7"/>
+                            </g>
+                          </svg>
+                          {{ slide.user_count }}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
+                </div>
+              </a>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="text-sm text-gray-500">Nenhuma pasta compartilhada ainda.</p>
+        {% endif %}
+      </div>
+    </div>
+  </main>
+{% endblock %}
+
+{% block head_extra %}
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script type="module" src="{{ url_for('static', path='/js/user/profile.js') }}"></script>
+  <script type="module" src="{{ url_for('static', path='js/utils/sidebar_toggle.js') }}"></script>
+  <script type="module" src="{{ url_for('static', path='js/utils/flash_message.js') }}"></script>
+{% endblock %}

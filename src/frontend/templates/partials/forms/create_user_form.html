@@ -1,0 +1,39 @@
+<h3 class="text-blue-600 font-medium mb-4">Criar Novo Usuário</h3>
+<form id="user-form" class="space-y-6">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div>
+      <label class="block text-sm mb-2">Nome de Usuário</label>
+      <input type="text" id="username" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Digite o nome de usuário" />
+    </div>
+    <div>
+      <label class="block text-sm mb-2">E-mail</label>
+      <input type="email" id="email" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Digite o e-mail" />
+    </div>
+    <div>
+      <label class="block text-sm mb-2">Senha</label>
+      <input type="password" id="password" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Digite a senha" />
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div>
+      <label class="block text-sm mb-2">Tipo de Perfil</label>
+      <select id="role" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500">
+        <option value="comum">Usuário Comum</option>
+        <option value="admin">Administrador</option>
+        {% if user.role.name == "superadmin" %}
+          <option value="superadmin">Super Admin</option>
+        {% endif %}
+      </select>
+    </div>
+
+    <div class="flex items-center gap-2 mt-6">
+      <input type="checkbox" id="is_active" checked />
+      <label for="is_active" class="text-sm">Usuário Ativo</label>
+    </div>
+  </div>
+
+  <button type="button" id="criar-usuario" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+    Criar Usuário
+  </button>
+</form>

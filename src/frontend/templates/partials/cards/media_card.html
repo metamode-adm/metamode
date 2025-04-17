@@ -1,0 +1,57 @@
+<div
+  id="media-card-{{ media.id }}"
+  class="draggable-media group bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm relative cursor-grab min-h-[360px]"
+  draggable="true"
+  data-id="{{ media.id }}"
+  title="Arraste para reordenar"
+>
+  <div class="relative w-full pt-[56.25%] bg-gray-100 z-10" style="will-change: transform;">
+    {% if media.type.startswith('image') %}
+      <img
+        src="{{ media.filepath }}"
+        alt="{{ media.filename }}"
+        class="absolute inset-0 w-full h-full object-cover cursor-grab"
+        draggable="false"
+        loading="lazy"
+      />
+    {% elif media.type.startswith('video') %}
+      <video
+        class="absolute inset-0 w-full h-full object-cover cursor-grab"
+        loop
+        muted
+        controls
+        playsinline
+        preload="metadata"
+        controlsList="nodownload"
+        draggable="false"
+        loading="lazy"
+      >
+        <source src="{{ media.filepath }}" type="{{ media.type }}" />
+      </video>
+    {% else %}
+      <div class="absolute inset-0 flex items-center justify-center bg-gray-200">
+        Formato não suportado
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="p-4 flex flex-col" style="cursor: grab;">
+    <p class="font-medium truncate">{{ media.filename }}</p>
+    <p class="text-gray-500 text-sm">
+      {{ "%.2f MB"|format(media.size_mb) }} |
+      {{ media.duration if media.duration else 'Desconhecido' }}s
+    </p>
+    <p class="text-gray-400 text-xs mb-2">
+      Enviado em {{ media.uploaded_at.strftime("%d/%m/%Y %H:%M") }}
+    </p>
+
+    <div class="flex justify-between items-center mt-auto">
+      <button class="definir-capa text-blue-600 hover:text-blue-800 text-sm" data-id="{{ media.id }}">
+        Definir como capa
+      </button>
+      <button class="remover-midia text-red-600 hover:text-red-700 text-sm" data-id="{{ media.id }}">
+        Remover
+      </button>
+    </div>
+  </div>
+</div>

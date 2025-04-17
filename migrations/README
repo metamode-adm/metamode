@@ -1,0 +1,69 @@
+# 📦 Migrações Alembic – Metamode
+
+Este diretório contém as migrações de banco de dados usando **Alembic + SQLAlchemy**.
+
+---
+
+## ⚙️ Pré-requisitos
+
+Ative o ambiente virtual e instale as dependências:
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## 🚀 Primeira execução
+
+1. Crie o banco `metamode` no MySQL/MariaDB
+2. Configure seu `.env` com os dados de conexão
+3. Rode as migrações:
+
+```bash
+alembic upgrade head
+```
+
+---
+
+## 🧠 Scripts iniciais
+
+Após as migrações, execute:
+
+```bash
+PYTHONPATH=. python scripts/seed_roles_and_permissions.py
+PYTHONPATH=. python scripts/seed_default_users.py
+```
+
+---
+
+## 🔁 Criar nova migração
+
+Sempre que mudar os modelos:
+
+```bash
+alembic revision --autogenerate -m "sua_mensagem"
+alembic upgrade head
+```
+
+---
+
+## 📌 Comandos úteis
+
+```bash
+alembic history     # Ver histórico de versões
+alembic current     # Ver versão atual
+```
+
+---
+
+## 🗑 Corrigir erro (pré-upgrade)
+
+Remova a última revisão em `migrations/versions/` antes de aplicar o `upgrade`.
+
+---
+
+Dúvidas? [Documentação oficial](https://alembic.sqlalchemy.org/)
+
+
+

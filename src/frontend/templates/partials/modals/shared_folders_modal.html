@@ -1,0 +1,33 @@
+<!-- Modal: Pastas Compartilhadas -->
+<div id="shared-folders-modal" class="fixed inset-0 z-50 hidden bg-black/40 backdrop-blur-sm flex items-center justify-center px-4">
+    <div class="bg-white rounded-xl w-full max-w-xl max-h-[90vh] overflow-hidden shadow-xl flex flex-col">
+  
+      <!-- Cabeçalho -->
+      <div class="relative p-6 border-b">
+        <h2 class="text-xl font-semibold text-gray-800 text-center w-full">
+          Pastas compartilhadas com <span id="shared-user-name" class="text-blue-600"></span>
+        </h2>
+        <button class="absolute top-6 right-6 text-gray-500 hover:text-gray-700 close-shared-modal" aria-label="Fechar">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+  
+      <!-- Conteúdo -->
+      <div class="p-6 overflow-y-auto flex-1">
+        <div id="shared-folder-list" class="space-y-4 text-sm">
+          <!-- Conteúdo dinâmico via JS -->
+        </div>
+      </div>
+  
+      <!-- Rodapé -->
+      <div class="p-6 border-t bg-gray-50 flex justify-end gap-3 shrink-0">
+        <button type="button" class="px-4 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-500 close-shared-modal">
+          Fechar
+        </button>
+      </div>
+  
+    </div>
+  </div>
+  

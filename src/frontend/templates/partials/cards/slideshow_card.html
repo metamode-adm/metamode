@@ -1,0 +1,78 @@
+<div class="relative group">
+  <!-- Botão de opções -->
+  <button
+    class="absolute top-4 right-4 z-20 bg-white/80 p-1 rounded hover:bg-white open-access-modal"
+    data-slideshow-id="{{ slideshow.id }}"
+    data-slideshow-title="{{ slideshow.title }}"
+    title="Gerenciar permissões"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-blue-800" fill="currentColor" viewBox="0 0 24 24">
+      <circle cx="12" cy="5" r="2" />
+      <circle cx="12" cy="12" r="2" />
+      <circle cx="12" cy="19" r="2" />
+    </svg>
+  </button>
+
+  <!-- Card clicável -->
+  <a href="/admin/media/{{ slideshow.id }}" class="block">
+    <div class="absolute -top-3 left-4 w-24 h-8 bg-blue-500 rounded-t-lg shadow-inner transform -skew-x-6 z-10"></div>
+
+    <div class="relative pt-4 bg-gradient-to-b from-blue-400 to-blue-500 rounded-lg overflow-hidden shadow-md hover:brightness-105 hover:scale-[1.01] transition-all duration-300 cursor-pointer">
+      <div class="relative z-10">
+        <div class="px-4 py-2 text-white">
+          <div class="flex flex-col">
+            <span class="font-medium truncate">{{ slideshow.title }}</span>
+            <span class="text-sm text-white/80 truncate">{{ slideshow.description or 'Sem descrição' }}</span>
+          </div>
+        </div>
+
+        <div class="p-4 bg-white rounded-b-lg">
+          <div class="bg-gray-50 rounded-lg p-2 shadow-inner">
+            <div class="relative">
+              {% if slideshow.cover %}
+                {% if slideshow.cover.type.startswith("image") %}
+                  <img src="{{ slideshow.cover.filepath }}" alt="Capa"
+                       class="w-full h-32 object-cover rounded-md shadow-sm" />
+                {% elif slideshow.cover.type.startswith("video") %}
+                  <video class="w-full h-32 object-cover rounded-md shadow-sm"
+                         loop muted playsinline preload="metadata" controlsList="nodownload">
+                    <source src="{{ slideshow.cover.filepath }}" type="{{ slideshow.cover.type }}" />
+                  </video>
+                {% else %}
+                  <div class="w-full h-32 bg-gray-200 rounded-md flex items-center justify-center text-gray-600 text-sm">
+                    Tipo não suportado
+                  </div>
+                {% endif %}
+              {% else %}
+                <div class="w-full h-32 bg-gray-100 rounded-md flex items-center justify-center text-gray-400">
+                  Sem capa
+                </div>
+              {% endif %}
+              <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-md"></div>
+            </div>
+
+            <div class="mt-2 flex items-center justify-between text-gray-600">
+              <div class="flex items-center gap-3">
+                <span class="text-sm font-medium">
+                  {{ slideshow.media_files|length }} mídias
+                </span>
+                <span class="text-sm flex items-center gap-1">
+                  <svg width="20" height="20" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" class="text-gray-500">
+                    <circle fill="#1E88E5" cx="11" cy="24" r="7"/>
+                    <circle fill="#1E88E5" cx="37" cy="14" r="7"/>
+                    <circle fill="#1E88E5" cx="37" cy="34" r="7"/>
+                    <path fill="#1976D2" d="M38.1,31.2 L19.4,24l18.7-7.2c1.5-0.6,2.3-2.3,1.7-3.9c-0.6-1.5-2.3-2.3-3.9-1.7l-26,10C8.8,21.6,8,22.8,8,24s0.8,2.4,1.9,2.8l26,10c0.4,0.1,0.7,0.2,1.1,0.2c1.2,0,2.3-0.7,2.8-1.9C40.4,33.5,39.6,31.8,38.1,31.2z"/>
+                  </svg>
+                  {{ slideshow.access_list|length }}
+                </span>
+              </div>
+              <span class="text-xs text-gray-400">Clique para abrir</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
+    </div>
+  </a>
+</div>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>{{ status_code }} - {{ error_title }} | DisplayFlow</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link href="{{ url_for('static', path='/dist/output.css') }}" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', path='/favicon/favicon.ico') }}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body class="h-screen w-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center overflow-hidden">
+    <div class="relative w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl">
+        <!-- Logo e Nome -->
+        <div class="absolute top-6 left-6 flex items-center gap-3">
+            <div class="p-2 rounded-xl bg-white/70 shadow">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 sm:w-8 sm:h-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h18M3 10h18M3 15h18M3 20h18"></path>
+                </svg>
+            </div>
+            <div>
+                <h1 class="text-base sm:text-lg font-bold text-gray-900">Metamode</h1>
+                <p class="text-xs sm:text-sm text-gray-600">Digital Signage System</p>
+            </div>
+        </div>
+
+        <!-- Card de Erro -->
+        <div class="backdrop-blur-lg rounded-2xl shadow-xl p-5 sm:p-6 md:p-8 bg-white/70 border border-gray-100">
+            <div class="text-center mb-4 sm:mb-6">
+                <div class="inline-block p-3 sm:p-4 rounded-full mb-3 bg-gradient-to-br from-red-600 to-red-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </div>
+                <h1 class="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">{{ status_code }} - {{ error_title }}</h1>
+                <p class="text-gray-600 text-sm sm:text-base">{{ error_message }}</p>
+            </div>
+
+            <div class="text-center">
+                <a href="/" class="inline-block py-3 px-5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold transition">
+                    Voltar para o início
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

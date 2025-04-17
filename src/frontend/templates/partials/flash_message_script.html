@@ -1,0 +1,5 @@
+{% if flash_message %}
+  <script>
+    window.flashMessage = {{ flash_message | tojson }};
+  </script>
+{% endif %}

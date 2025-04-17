@@ -1,0 +1,56 @@
+
+<!-- Título e botão para ocultar/exibir upload -->
+<div class="mb-1 text-center">
+  <h2 class="text-xl md:text-2xl font-bold mb-4 text-center md:text-left">
+    Gerenciando: {{ slideshow.title }}
+  </h2>
+</div>
+
+<div class="mb-6 text-center">
+  <button id="toggle-upload"
+          type="button"
+          class="px-4 py-2 border border-blue-600 text-blue-600 text-sm font-medium rounded-lg hover:bg-blue-50 transition duration-200">
+    <span id="toggle-text">Ocultar área de upload</span>
+  </button>
+</div>
+
+<!-- Área de upload -->
+<div id="upload-section" class="bg-white border rounded-lg p-6 mb-6 relative">
+    <form id="uploadForm" enctype="multipart/form-data" class="space-y-6 pt-10">
+      <div id="dropzone"
+           class="border-2 border-dashed rounded-lg p-4 sm:p-6 text-center cursor-pointer bg-white w-full">
+        <input type="file" name="files" id="fileInput" multiple required class="hidden" />
+        <div class="flex flex-col items-center space-y-2 pointer-events-none">
+          <svg class="w-10 h-10 sm:w-12 sm:h-12 text-gray-400" fill="none" stroke="currentColor" stroke-width="2"
+               viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+          </svg>
+          <p class="font-semibold text-base sm:text-lg">Arraste ou clique para fazer upload</p>
+          <p class="text-gray-500 text-xs sm:text-sm">
+            Imagens (JPG, PNG, WEBP), GIFs e vídeos (MP4, WEBM) até
+            <span id="maxSizePlaceholder">{{ max_upload_size_mb }}</span>MB
+          </p>
+          <div class="px-4 py-2 sm:px-6 sm:py-3 bg-blue-600 text-white rounded text-base sm:text-lg">
+            Selecionar Arquivos
+          </div>
+        </div>
+      </div>
+  
+      <progress id="progressBar" max="100" value="0"
+                class="w-full h-2 rounded overflow-hidden bg-gray-200 hidden"></progress>
+  
+      <button id="uploadButton" type="button"
+              class="w-full py-3 bg-green-600 text-white font-bold rounded text-lg">
+        Enviar Arquivos
+      </button>
+  
+      <div id="fileListContainer"
+           class="mt-6 w-full hidden bg-gray-50 p-4 border rounded-lg">
+        <h3 class="text-lg font-semibold mb-2">Arquivos Selecionados:</h3>
+        <div id="fileList" class="space-y-2 max-h-48 overflow-y-auto pr-2">
+          <!-- Itens aparecem aqui via JS -->
+        </div>
+      </div>
+    </form>
+  </div>
+  

@@ -1,0 +1,62 @@
+<!-- Modal: Criar Nova Pasta -->
+<div id="modal-criar-pasta" class="fixed inset-0 z-50 hidden bg-black/40 backdrop-blur-sm flex items-center justify-center px-4">
+  <div class="bg-white rounded-xl w-full max-w-xl max-h-[90vh] overflow-hidden shadow-xl flex flex-col">
+
+    <!-- Cabeçalho -->
+    <div class="relative p-6 border-b">
+      <h2 class="text-xl font-semibold text-gray-800 text-center w-full">Criar Nova Pasta</h2>
+      <button id="fechar-modal-criar" class="absolute top-6 right-6 text-gray-500 hover:text-gray-700">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Conteúdo -->
+    <div class="p-6 overflow-y-auto flex-1">
+      <form id="form-criar-pasta" class="space-y-5">
+        <div>
+          <label for="slideshow-title" class="block text-sm font-medium text-gray-700 mb-1">Título</label>
+          <input
+            type="text"
+            id="slideshow-title"
+            name="title"
+            placeholder="ex: Pasta RH"
+            required
+            class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <div>
+          <label for="slideshow-description" class="block text-sm font-medium text-gray-700 mb-1">Descrição (opcional)</label>
+          <textarea
+            id="slideshow-description"
+            name="description"
+            rows="3"
+            placeholder="Descreva a finalidade desta pasta"
+            class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+          ></textarea>
+        </div>
+      </form>
+    </div>
+
+    <!-- Rodapé -->
+    <div class="p-6 border-t bg-gray-50 flex justify-end gap-3 shrink-0">
+      <button
+        type="button"
+        id="cancelar-criar-pasta"
+        class="px-4 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-500"
+      >
+        Cancelar
+      </button>
+      <button
+        type="submit"
+        form="form-criar-pasta"
+        class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+      >
+        Criar
+      </button>
+    </div>
+
+  </div>
+</div>

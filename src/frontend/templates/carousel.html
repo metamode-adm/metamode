@@ -1,0 +1,85 @@
+{% extends 'partials/base.html' %}
+
+{% block title %}DisplayFlow - Carrossel{% endblock %}
+
+{% block body_class %}bg-black text-white h-screen overflow-hidden{% endblock %}
+
+{% block sidebar %}{% endblock %}
+{% block flash %}{% endblock %}
+
+{% block content %}
+  {% if error %}
+    <div class="flash-message" role="alert">
+      {{ error }}
+    </div>
+  {% endif %}
+
+  <div id="loading-overlay" class="fixed inset-0 z-[9999] bg-black/90 flex items-center justify-center flex-col text-white text-center p-6">
+    <svg class="animate-spin h-10 w-10 mb-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+    </svg>
+    <p id="loading-text" class="text-lg font-medium">Carregando mídias... 0%</p>
+  </div>
+
+  <main class="carousel-container" id="carousel">
+    <button id="close-carousel" class="close-btn" aria-label="Fechar carrossel">×</button>
+
+    {% if midias %}
+    <section class="carousel-images" id="carousel-images">
+      {% for media in midias %}
+        <div class="carousel-item" data-duration="{{ media.duration }}">
+          {% if media.type.startswith('image') or media.type == 'image/gif' %}
+            <img src="{{ media.filepath }}" alt="Imagem: {{ media.filename }}" loading="lazy" />
+          {% elif media.type.startswith('video') %}
+            <video class="carousel-video" preload="auto" playsinline>
+              <source src="{{ media.filepath }}" type="{{ media.type }}" />
+              Seu navegador não suporta vídeos.
+            </video>
+          {% else %}
+            <div class="unsupported-format">
+              Formato não suportado: {{ media.type }}
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </section>
+    {% else %}
+    <div class="absolute inset-0 flex items-center justify-center text-white text-center text-xl">
+      Nenhuma mídia disponível para exibição.
+    </div>
+    {% endif %}
+
+    <div id="interaction-overlay"
+         class="absolute inset-0 z-[999] hidden flex flex-col items-center justify-center text-white text-center p-5 bg-gradient-to-br from-black/85 to-black/90 transition-opacity duration-700 ease-in-out cursor-pointer">
+      <div class="interaction-message flex flex-col items-center animate-bounce">
+        <svg width="64" height="64" xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24" class="mb-5">
+          <path d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2Zm1 15h-2v-6h2Zm0-8h-2V7h2Z" />
+        </svg>
+        <p class="text-lg leading-relaxed">
+          Clique ou pressione qualquer tecla<br />
+          para iniciar o carrossel
+        </p>
+      </div>
+    </div>
+
+    <div class="progress-container">
+      <div class="progress-bar" id="progress-bar"></div>
+    </div>
+
+      <!-- Fogo animado no canto -->
+    <div id="fire-gif" class="fixed bottom-2 right-2 w-8 h-8 z-[1000] pointer-events-none">
+      <img src="{{ url_for('static', path='assets/logos/metamode-icon.png') }}" alt="Logo animada" class="w-full h-full object-contain animate-flame transition duration-500 ease-in-out" />
+    </div>
+
+  </main>
+
+
+
+{% endblock %}
+
+{% block head_extra %}
+  <link rel="stylesheet" href="{{ url_for('static', path='css/carousel.css') }}" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script type="module" src="{{ url_for('static', path='js/carousel/index.js') }}"></script>
+{% endblock %}

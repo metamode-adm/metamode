@@ -1,0 +1,66 @@
+<!-- Modal: Edição de Usuário -->
+<div id="edit-modal" class="fixed inset-0 z-50 hidden bg-black/40 backdrop-blur-sm flex items-center justify-center px-4">
+  <div class="bg-white rounded-xl w-full max-w-xl max-h-[90vh] overflow-hidden shadow-xl flex flex-col">
+
+    <!-- Cabeçalho -->
+    <div class="relative p-6 border-b">
+      <h2 class="text-xl font-semibold text-gray-800 text-center w-full">Editar Usuário</h2>
+      <button id="fechar-modal" class="absolute top-6 right-6 text-gray-500 hover:text-gray-700">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Conteúdo -->
+    <div class="p-6 overflow-y-auto flex-1">
+      <form id="edit-form" class="space-y-5">
+        <input type="hidden" id="edit-user-id" />
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Nome de Usuário</label>
+          <input type="text" id="edit-username" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500" />
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">E-mail</label>
+          <input type="email" id="edit-email" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500" />
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Nova Senha</label>
+          <input type="password" id="edit-password" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500" />
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Confirmar Senha</label>
+          <input type="password" id="edit-confirm-password" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500" />
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Tipo de Perfil</label>
+          <select id="edit-role" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500">
+            <option value="comum">Usuário Comum</option>
+            <option value="admin">Administrador</option>
+            {% if current_user.role.name == "superadmin" %}
+              <option value="superadmin">Super Admin</option>
+            {% endif %}
+          </select>
+        </div>
+
+        <div>
+          <label class="flex items-center gap-2 mt-2">
+            <input type="checkbox" id="edit-is-active" />
+            <span class="text-sm">Usuário Ativo</span>
+          </label>
+        </div>
+      </form>
+    </div>
+
+    <!-- Rodapé -->
+    <div class="p-6 border-t bg-gray-50 flex justify-end gap-3 shrink-0">
+      <button type="button" id="fechar-modal-footer" class="px-4 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-500">Cancelar</button>
+      <button type="button" id="salvar-edicao" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Salvar</button>
+    </div>
+  </div>
+</div>

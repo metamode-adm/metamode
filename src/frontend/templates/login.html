@@ -1,0 +1,59 @@
+{% extends 'partials/base.html' %}
+
+{% block title %}Login - Metamode{% endblock %}
+
+{% block body_class %}h-screen w-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center overflow-hidden{% endblock %}
+
+{% block sidebar %}{% endblock %}
+{% block flash %}{% endblock %}
+
+{% block content %}
+  <div class="relative w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl">
+
+    <!-- Card de Login -->
+    <div class="backdrop-blur-lg rounded-2xl shadow-xl p-5 sm:p-6 md:p-8 bg-white/70 border border-gray-100">
+      <div class="text-center mb-4 sm:mb-6">
+        
+        <img src="{{ url_for('static', path='assets/logos/metamode.png') }}"
+        alt="Logo Metamode"
+        class="w-48 sm:w-52 md:w-56 h-auto mx-auto mb-4">
+      </div>
+
+    
+      {% if error %}
+      <div class="mb-3 p-3 rounded-lg bg-red-100 border border-red-300 text-red-700 text-xs sm:text-sm">
+        {{ error }}
+      </div>
+      {% endif %}
+
+      <form method="POST" action="/login" class="space-y-4 sm:space-y-5">
+        <!-- Usuário -->
+        <div class="flex flex-col gap-1">
+          <label for="username" class="text-sm sm:text-base text-gray-700 font-medium">Usuário</label>
+          <input type="text" name="username" id="username" placeholder="Digite seu usuário" required
+            class="w-full px-4 py-3 text-base sm:text-lg rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-900 placeholder-gray-400 shadow-sm" />
+        </div>
+
+        <!-- Senha -->
+        <div class="flex flex-col gap-1">
+          <label for="password" class="text-sm sm:text-base text-gray-700 font-medium">Senha</label>
+          <input type="password" name="password" id="password" placeholder="Digite sua senha" required
+            class="w-full px-4 py-3 text-base sm:text-lg rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-900 placeholder-gray-400 shadow-sm" />
+        </div>
+
+        <!-- Administrador -->
+        <label class="flex items-center gap-4 bg-white border border-gray-200 rounded-lg px-4 py-3 sm:py-3 w-full text-gray-700 text-base sm:text-lg font-medium shadow-sm hover:bg-gray-50 transition">
+          <input type="checkbox" name="admin"
+            class="form-checkbox w-6 h-6 sm:w-6 sm:h-6 text-blue-600 border-gray-300 focus:ring-2 focus:ring-blue-500 rounded" />
+          <span class="flex-1 text-left">Acessar o Painel Administrativo</span>
+        </label>
+
+        <!-- Entrar -->
+        <button type="submit"
+          class="w-full py-3 text-base sm:text-lg font-semibold rounded-xl text-white bg-blue-600 hover:bg-blue-700 transition focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm">
+          Entrar
+        </button>
+      </form>
+    </div>
+  </div>
+{% endblock %}

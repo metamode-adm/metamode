@@ -1,0 +1,72 @@
+<!-- Modal: Acesso à Pasta -->
+<div id="slideshow-access-modal" class="fixed inset-0 z-50 hidden bg-black/40 backdrop-blur-sm flex items-center justify-center px-4">
+  <div class="bg-white rounded-xl w-full max-w-xl max-h-[90vh] overflow-hidden shadow-xl flex flex-col">
+
+    <!-- Cabeçalho -->
+    <div class="relative p-6 border-b">
+      <h2 class="text-xl font-semibold text-gray-800 text-center w-full">Configurações da Pasta</h2>
+      <button id="close-slideshow-access-modal" class="absolute top-6 right-6 text-gray-500 hover:text-gray-700">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Conteúdo -->
+    <div class="p-6 overflow-y-auto flex-1 space-y-8">
+
+      <!-- Formulário -->
+      <div class="space-y-4">
+        <input type="hidden" id="slideshow-access-id" />
+
+        <div>
+          <label for="slideshow-access-title" class="block text-sm font-medium text-gray-700 mb-1">Nome da Pasta</label>
+          <input type="text" id="slideshow-access-title" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500" />
+        </div>
+
+        <div>
+          <label for="slideshow-access-description" class="block text-sm font-medium text-gray-700 mb-1">Descrição</label>
+          <textarea id="slideshow-access-description" rows="3" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"></textarea>
+        </div>
+      </div>
+
+      <!-- Lista de usuários -->
+      <div>
+        <h3 class="text-lg font-medium text-gray-800 mb-4">Compartilhado com</h3>
+        <div id="slideshow-access-users" class="space-y-3 max-h-40 overflow-y-auto pr-1 text-sm">
+          <!-- Lista dinâmica -->
+        </div>
+      </div>
+
+      <!-- Buscar usuários -->
+      <div>
+        <h3 class="text-lg font-medium text-gray-800 mb-4">Adicionar usuários</h3>
+        <div class="relative mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.3-4.3" />
+          </svg>
+          <input type="text" id="slideshow-user-search" placeholder="Buscar usuários..." class="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500" />
+        </div>
+
+        <div id="slideshow-user-results" class="space-y-2 max-h-48 overflow-y-auto text-sm">
+          <!-- Resultados da busca -->
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Rodapé -->
+    <div class="p-6 border-t bg-gray-50 flex justify-between items-center shrink-0">
+      <button id="delete-slideshow" class="text-red-600 hover:underline font-medium text-sm">
+        Excluir Pasta
+      </button>
+
+      <div class="flex gap-3">
+        <button id="cancel-slideshow-access" class="px-4 py-2 text-gray-700 hover:text-gray-900 font-medium">Cancelar</button>
+        <button id="save-slideshow-access" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium">Salvar alterações</button>
+      </div>
+    </div>
+
+  </div>
+</div>

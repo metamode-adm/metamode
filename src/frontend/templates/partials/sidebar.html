@@ -1,0 +1,105 @@
+<!-- Botão do menu hambúrguer fixo -->
+<button id="menu-toggle" class="fixed top-4 left-4 z-[998] p-2 rounded-lg bg-white shadow-md lg:hidden">
+  <svg id="menu-icon" class="w-6 h-6 text-gray-700" xmlns="http://www.w3.org/2000/svg" fill="none"
+    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7" />
+  </svg>
+</button>
+
+<!-- Sidebar -->
+<aside id="sidebar"
+  class="w-64 bg-white border-r border-gray-200 p-4 flex flex-col h-[100dvh] fixed lg:relative z-[999] transform -translate-x-full lg:translate-x-0 transition-transform duration-300">
+
+  <!-- Botão Fechar no Sidebar -->
+  <button id="close-sidebar" class="lg:hidden self-end mb-2">
+    <svg class="w-6 h-6 text-gray-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+      stroke-width="2" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+    </svg>
+  </button>
+
+  <!-- Topo - Logo + Nome do Usuário -->
+  <div class="flex flex-col items-start mb-8">
+    <div class="flex items-center gap-3">
+      <img src="{{ url_for('static', path='assets/logos/metamode-icon.png') }}"
+          alt="Logo Metamode"
+          class="w-8 h-8 object-contain animate-flame transition duration-700 ease-in-out" />
+      <h1 class="text-xl font-bold">MetaMode</h1>
+    </div>
+    <span class="mt-2 text-sm text-gray-500">
+      {% if user and user.username %}
+        Olá, <strong>{{ user.username }}</strong>
+      {% else %}
+        Bem-vindo
+      {% endif %}
+    </span>
+  </div>
+
+
+  <!-- Navegação Principal -->
+  {% if user and user.role %}
+  <nav class="space-y-1">
+    {% if user.role.permissions.can_view_slideshow %}
+    <a href="/admin/media"
+      class="flex items-center gap-3 px-4 py-3 rounded-lg {% if request.url.path == '/admin/media' %}bg-blue-100 text-blue-700{% else %}hover:bg-gray-50{% endif %}">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+        stroke-width="2" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round"
+          d="M3 8l7.89-3.15a1 1 0 01.76 0L21 8m-18 0v8a2 2 0 002 2h14a2 2 0 002-2V8M5 12h14" />
+      </svg>
+      Slideshows
+    </a>
+    {% endif %}
+
+    {% if user.role.permissions.can_create_user %}
+    <a href="/admin/usuarios"
+      class="flex items-center gap-3 px-4 py-3 rounded-lg {% if request.url.path == '/admin/usuarios' %}bg-blue-100 text-blue-700{% else %}hover:bg-gray-50{% endif %}">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+        stroke-width="2" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round"
+          d="M17 20h5v-2a2 2 0 00-2-2h-1m-4 4h-6m-4 0H3a2 2 0 01-2-2V4a2 2 0 012-2h4a2 2 0 012 2v16zm9-14h2a2 2 0 012 2v4a2 2 0 01-2 2h-2m-4-8h-4" />
+      </svg>
+      Usuários
+    </a>
+    {% endif %}
+
+    {% if user.role.permissions.can_edit_own_profile %}
+    <a href="/profile"
+      class="flex items-center gap-3 px-4 py-3 rounded-lg {% if request.url.path == '/profile' %}bg-blue-100 text-blue-700{% else %}hover:bg-gray-50{% endif %}">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+        stroke-width="2" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round"
+          d="M5.121 17.804A4.5 4.5 0 0112 15.5a4.5 4.5 0 016.879 2.304M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+      </svg>
+      Meu Perfil
+    </a>
+    {% endif %}
+  </nav>
+  {% endif %}
+
+  <!-- Rodapé -->
+  <div class="mt-auto space-y-3">
+    <a href="/carousel"
+      class="flex items-center gap-3 px-4 py-3 rounded-lg bg-green-100 text-green-700 hover:bg-green-200">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+        stroke-width="2" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3 12h18M3 6h18M3 18h18" />
+      </svg>
+      Ir para Carrossel
+    </a>
+
+    {% if user %}
+    <form action="/logout" method="post" class="w-full">
+      <button type="submit"
+        class="flex items-center gap-3 px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 w-full text-left">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+          stroke-width="2" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1m0-10V3" />
+        </svg>
+        Sair
+      </button>
+    </form>
+    {% endif %}
+  </div>
+</aside>
