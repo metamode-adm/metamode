@@ -15,10 +15,11 @@ from src.backend.core.messages import (
     SUCCESS_OPERATION,
     NO_PERMISSION_MSG
 )
-
+from src.backend.models.user_model import User
 from fastapi.responses import RedirectResponse
 
 from src.backend.schemas.slideshow_schema import SlideshowCreateSchema, SlideshowUpdateSchema
+from src.backend.repositories.slideshow_repository import get_slideshows_shared_with_user
 from src.backend.storage.media_storage import delete_file
 from src.backend.repositories.slideshow_repository import (
     get_all_slideshows_with_cover,
@@ -87,17 +88,22 @@ async def create_slideshow(data: SlideshowCreateSchema, session: AsyncSession, u
         return json_response(success=False, message=SLIDESHOW_CREATION_FAILED, status_code=500)
 
 
-async def view_slideshow(slideshow_id: int, request: Request, session: AsyncSession, user):
+async def view_slideshow(slideshow_id: int, request: Request, session: AsyncSession, user: User):
     """Exibe todas as mídias dentro de um slideshow específico."""
 
-    has_permission = await check_permission(user, "can_view_media")
+    has_permission_can_view_media = await check_permission(user, "can_view_media")
+    shared_slideshows = await get_slideshows_shared_with_user(session, user.id)
+    is_admin_or_superadmin = user.role.name in ["admin", "superadmin"]
+    has_permission = is_admin_or_superadmin or (has_permission_can_view_media and slideshow_id in [slideshow.id for slideshow in shared_slideshows])
+
     if not has_permission:
         set_flash_message(request, NO_PERMISSION_MSG)
         return RedirectResponse(url="/no-permission", status_code=status.HTTP_303_SEE_OTHER)
 
     slideshow = await get_slideshow_with_media(slideshow_id, session)
     if not slideshow:
-        return json_response(success=False, message=SLIDESHOW_NOT_FOUND, status_code=404)
+        set_flash_message(request, SLIDESHOW_NOT_FOUND)
+        return RedirectResponse(url="/admin/media", status_code=status.HTTP_303_SEE_OTHER)
 
     for media in slideshow.media_files:
         if not media.filepath.startswith("/"):

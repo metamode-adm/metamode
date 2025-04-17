@@ -6,6 +6,7 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 from starlette.status import HTTP_303_SEE_OTHER
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.trustedhost import TrustedHostMiddleware
+from sqlalchemy.exc import OperationalError
 from src.backend.core.config import settings
 from src.backend.routes import auth_routes, carrossel_routes, slideshow_routes, user_routes, user_profile_routes
 from src.backend.core.templates import templates
@@ -84,15 +85,14 @@ def create_app() -> FastAPI:
         if exc.status_code == HTTP_303_SEE_OTHER:
             return RedirectResponse(url=exc.headers["Location"], status_code=303)
 
-        elif exc.status_code in [401, 403]:
+        if exc.status_code in [401, 403]:
             return templates.TemplateResponse(
-                "auth/login.html",
-                {"request": request, "error": "Acesso negado. Faça login com uma conta autorizada."},
+                "login.html",
+                {"request": request, "error": exc.detail},
                 status_code=exc.status_code
             )
 
-        elif exc.status_code == 404:
-            # Esse 404 aqui só pega se for disparado explicitamente dentro de uma rota.
+        if exc.status_code == 404:
             context = {
                 "request": request,
                 "status_code": 404,
@@ -101,13 +101,17 @@ def create_app() -> FastAPI:
             }
             return templates.TemplateResponse("errors/error.html", context, status_code=404)
 
-        else:
-            return JSONResponse(
-                status_code=exc.status_code,
-                content={"detail": exc.detail}
-            )
+        if exc.status_code == 500:
+            context = {
+                "request": request,
+                "status_code": 500,
+                "error_title": "Erro de conexão com o banco",
+                "error_message": exc.detail or "Erro interno no servidor. Tente novamente mais tarde."
+            }
+            return templates.TemplateResponse("errors/error.html", context, status_code=500)
 
-    # Handler para rotas inexistentes (404 globais)
+        return JSONResponse(status_code=exc.status_code, content={"detail": exc.detail})
+
     @app.exception_handler(StarletteHTTPException)
     async def custom_starlette_exception_handler(request: Request, exc: StarletteHTTPException):
         if exc.status_code == 404:
@@ -119,9 +123,34 @@ def create_app() -> FastAPI:
             }
             return templates.TemplateResponse("errors/error.html", context, status_code=404)
 
-        return JSONResponse(
-            status_code=exc.status_code,
-            content={"detail": exc.detail}
+        return JSONResponse(status_code=exc.status_code, content={"detail": exc.detail})
+
+    @app.exception_handler(OperationalError)
+    async def db_exception_handler(request: Request, exc: OperationalError):
+        logger.error(f"[DB ERROR] {exc}")
+        return templates.TemplateResponse(
+            "errors/error.html",
+            {
+                "request": request,
+                "status_code": 500,
+                "error_title": "Erro de banco de dados",
+                "error_message": "Não foi possível acessar os dados no momento. Por favor, tente novamente mais tarde."
+            },
+            status_code=500
+        )
+
+    @app.exception_handler(Exception)
+    async def global_exception_handler(request: Request, exc: Exception):
+        logger.error(f"[UNHANDLED EXCEPTION] {repr(exc)}")
+        return templates.TemplateResponse(
+            "errors/error.html",
+            {
+                "request": request,
+                "status_code": 500,
+                "error_title": "Erro interno no servidor",
+                "error_message": "Algo deu errado. Tente novamente mais tarde."
+            },
+            status_code=500
         )
 
     return app
