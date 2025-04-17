@@ -8,6 +8,7 @@ LOGIN_ERROR_INVALID_CREDENTIALS = "Usuário ou senha inválidos."
 LOGIN_ERROR_NO_PERMISSION = "Você não tem permissão de administrador."
 NO_ADMIN_PERMISSION = "Você não tem permissão para acessar esta página."
 SUPERADMIN_REQUIRED = "Ação permitida apenas para superadministradores."
+LOGIN_ERROR_INTERNAL = "Erro interno ao tentar fazer login. Tente novamente mais tarde."
 
 # 👤 Mensagens de Usuário
 USER_CREATE_SUCCESS = "Usuário criado com sucesso."

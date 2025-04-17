@@ -4,9 +4,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from src.backend.core.database import get_db
 from src.backend.core.templates import templates
 from src.backend.core.responses import set_flash_message, get_flash_message
-from src.backend.services.auth_service import authenticate_user, verificar_login
+from src.backend.services.auth_service import authenticate_user
 from src.backend.core.config import settings
-from src.backend.core.messages import LOGIN_ERROR_INVALID_CREDENTIALS
+from src.backend.core.messages import LOGIN_ERROR_INVALID_CREDENTIALS, LOGIN_ERROR_INTERNAL
 from src.backend.models.user_model import User 
 from src.backend.services.auth_service import get_current_user_with_permissions
 import time
@@ -34,7 +34,11 @@ async def login(
     Autentica o usuário e salva apenas o user_id na sessão.
     A validação de permissões será feita nas rotas via `check_permission`.
     """
-    user = await authenticate_user(username, password, session)
+    user, internal_error = await authenticate_user(username, password, session)
+
+    if internal_error:
+        set_flash_message(request, LOGIN_ERROR_INTERNAL)
+        return RedirectResponse(url="/login", status_code=303)
 
     if not user:
         set_flash_message(request, LOGIN_ERROR_INVALID_CREDENTIALS)
