@@ -10,7 +10,8 @@ venv/
 # 🔐 VARIÁVEIS DE AMBIENTE
 # ========================
 .env
-.env.*
+.env
+
 
 # ========================
 # 🗃️ BANCO DE DADOS (SQLite, dumps ou temporários)
