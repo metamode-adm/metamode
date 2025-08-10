@@ -7,6 +7,20 @@ Este projeto segue o versionamento [SemVer](https://semver.org/lang/pt-BR/).
 
 ---
 
+## [1.2.1] – 2025-01-20
+
+### Segurança
+- **Correção de vulnerabilidades críticas de segurança**
+- Atualização do h11 de 0.14.0 para >=0.16.0
+  - Corrige vulnerabilidade de contrabando de requisições (request smuggling)
+  - Resolve análise inadequada de terminadores de linha em corpos chunked-encoding
+- Atualização do starlette de 0.46.1 para >=0.47.2
+  - Corrige possível vetor de negação de serviço (DoS)
+  - Resolve bloqueio da thread principal ao processar arquivos grandes em formulários multipartes
+- Resolução de alertas críticos e moderados do GitHub Dependabot
+
+---
+
 ## [1.2.0] – 2025-01-20
 
 ### Adicionado
