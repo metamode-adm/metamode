@@ -16,7 +16,7 @@ Este guia mostra como instalar o Metamode usando Docker de forma simples e flex√
 
 ### 1. Clone o reposit√≥rio
 ```bash
-git clone https://github.com/seu-usuario/metamode.git
+git clone https://github.com/metamode-adm/metamode.git
 cd metamode
 ```
 

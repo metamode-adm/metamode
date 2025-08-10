@@ -92,7 +92,7 @@ Acesse em: [http://localhost:8000](http://localhost:8000)
 Abra o terminal do **PowerShell** ou terminal integrado do **VS Code**:
 
 ```powershell
-git clone https://github.com/seu-usuario/metamode.git
+git clone https://github.com/metamode-adm/metamode.git
 cd metamode
 
 # Criação e ativação do ambiente virtual
