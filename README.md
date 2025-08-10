@@ -56,6 +56,27 @@ O **Metamode** é um sistema web completo para:
 
 ---
 
+## 🗄️ Suporte a Múltiplos Bancos de Dados
+
+O Metamode oferece **suporte nativo** para dois tipos de banco de dados:
+
+- **🐬 MySQL/MariaDB** - Ideal para ambientes tradicionais
+- **🐘 PostgreSQL** - Recomendado para novos projetos
+
+### 📁 Configuração Simplificada
+
+Escolha o arquivo `.env` apropriado:
+
+```bash
+# Para MySQL/MariaDB
+cp .env.mysql.example .env
+
+# Para PostgreSQL  
+cp .env.postgresql.example .env
+```
+
+---
+
 ## 🚀 Comece Agora
 
 Escolha um dos guias de instalação:
@@ -69,7 +90,7 @@ Escolha um dos guias de instalação:
 
 - **Backend**: FastAPI, SQLAlchemy 2.0
 - **Frontend**: HTML, TailwindCSS, JavaScript puro
-- **Banco de dados**: MySQL / MariaDB
+- **Banco de dados**: MySQL/MariaDB **OU** PostgreSQL (suporte dual)
 - **Deploy**: Gunicorn, NGINX, Certbot (SSL), UFW, Systemd
 
 ---
@@ -78,13 +99,15 @@ Escolha um dos guias de instalação:
 
 ```
 metamode/
-├── src/backend         # FastAPI, rotas, serviços, models
-├── src/frontend        # HTML, JS, CSS (Tailwind)
-├── scripts/            # Seeds de permissão e usuários
-├── uploads/            # Diretório gerado para mídias
-├── logs/               # Logs rotativos automáticos
-├── .env.example        # Arquivo de variáveis
-└── README.md           # Este arquivo
+├── src/backend              # FastAPI, rotas, serviços, models
+├── src/frontend             # HTML, JS, CSS (Tailwind)
+├── scripts/                 # Seeds de permissão e usuários
+├── uploads/                 # Diretório gerado para mídias
+├── logs/                    # Logs rotativos automáticos
+├── .env.example             # Configuração genérica
+├── .env.mysql.example       # Configuração para MySQL/MariaDB
+├── .env.postgresql.example  # Configuração para PostgreSQL
+└── README.md                # Este arquivo
 ```
 
 ---

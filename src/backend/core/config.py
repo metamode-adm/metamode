@@ -5,6 +5,8 @@ from pathlib import Path
 from typing import ClassVar
 
 class Settings(BaseSettings):
+    # Configurações de banco de dados
+    DB_TYPE: str = "mysql"  # mysql ou postgresql
     DB_USER: str
     DB_PASSWORD: str
     DB_HOST: str
@@ -41,6 +43,15 @@ class Settings(BaseSettings):
 
     @property
     def DATABASE_URL(self):
-        return f"mysql+aiomysql://{self.DB_USER}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
+        """Retorna a URL do banco de dados baseada no tipo configurado."""
+        if self.DB_TYPE.lower() == "postgresql":
+            return f"postgresql+asyncpg://{self.DB_USER}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
+        else:  # mysql (padrão)
+            return f"mysql+aiomysql://{self.DB_USER}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
+    
+    @property
+    def DB_DRIVER_NAME(self):
+        """Retorna o nome do driver do banco de dados."""
+        return "postgresql" if self.DB_TYPE.lower() == "postgresql" else "mysql"
 
 settings = Settings()

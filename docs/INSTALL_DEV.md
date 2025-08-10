@@ -10,14 +10,27 @@ Certifique-se de ter os seguintes componentes instalados:
 
 - **Python** 3.11+
 - **Node.js** 20+
-- **MySQL ou MariaDB** (local ou remoto)
+- **Banco de dados:** MySQL/MariaDB **OU** PostgreSQL (local ou remoto)
 - **Git**
 - **Editor recomendado:** [Visual Studio Code (VS Code)](https://code.visualstudio.com)
 
-> 💡 No Ubuntu, instale via:
+### 🗄️ Instalação do Banco de Dados
+
+**Para MySQL/MariaDB (Ubuntu):**
 ```bash
 sudo apt install python3.11 python3.11-venv mariadb-server nodejs npm git
+sudo mysql_secure_installation
 ```
+
+**Para PostgreSQL (Ubuntu):**
+```bash
+sudo apt install python3.11 python3.11-venv postgresql postgresql-contrib nodejs npm git
+sudo -u postgres createdb metamode
+```
+
+**Para Windows:**
+- MySQL: [Download MySQL Community Server](https://dev.mysql.com/downloads/mysql/)
+- PostgreSQL: [Download PostgreSQL](https://www.postgresql.org/download/windows/)
 
 ---
 
@@ -36,9 +49,19 @@ pip install -r requirements.txt
 npm install
 npm run build:css:once
 
-# Variáveis de ambiente
-cp .env.example .env
-# ⚠️ Edite o arquivo .env com as credenciais corretas do banco
+# Configuração das variáveis de ambiente
+# Escolha o arquivo .env apropriado para seu banco de dados:
+
+# Para MySQL/MariaDB:
+cp .env.mysql.example .env
+
+# Para PostgreSQL:
+cp .env.postgresql.example .env
+
+# Ou use o arquivo genérico e configure manualmente:
+# cp .env.example .env
+
+# ⚠️ IMPORTANTE: Edite o arquivo .env com suas credenciais do banco
 ```
 
 ### 🛠️ Inicializando o banco de dados
@@ -81,9 +104,19 @@ pip install -r requirements.txt
 npm install
 npm run build:css:once
 
-# Variáveis de ambiente
-copy .env.example .env
-# ⚠️ Edite o arquivo .env com as credenciais corretas do banco
+# Configuração das variáveis de ambiente
+# Escolha o arquivo .env apropriado para seu banco de dados:
+
+# Para MySQL/MariaDB:
+copy .env.mysql.example .env
+
+# Para PostgreSQL:
+copy .env.postgresql.example .env
+
+# Ou use o arquivo genérico e configure manualmente:
+# copy .env.example .env
+
+# ⚠️ IMPORTANTE: Edite o arquivo .env com suas credenciais do banco
 ```
 
 ### 🛠️ Inicializando o banco de dados
@@ -105,26 +138,73 @@ Abra no navegador: [http://localhost:8000](http://localhost:8000)
 
 ---
 
-## 🔐 Variáveis do `.env`
+## 🔐 Configuração do Arquivo `.env`
 
+O Metamode oferece **três arquivos de exemplo** para facilitar a configuração:
+
+- **`.env.example`** - Configuração genérica (PostgreSQL por padrão)
+- **`.env.mysql.example`** - Configuração específica para MySQL/MariaDB
+- **`.env.postgresql.example`** - Configuração específica para PostgreSQL
+
+### 🗄️ Configuração do Banco de Dados
+
+**Para MySQL/MariaDB:**
 ```ini
-ENVIRONMENT=development
-LOG_LEVEL=DEBUG
-SECRET_KEY=uma_chave_segura
-UPLOAD_DIR=uploads
-LOG_DIR=logs
-ADMIN_SESSION_EXPIRATION=3600
+DB_TYPE=mysql
+DB_USER="root"
+DB_PASSWORD="sua_senha"
+DB_HOST="127.0.0.1"
+DB_PORT=3306
+DB_NAME=metamode
 ```
 
-### Descrição das principais variáveis
+**Para PostgreSQL:**
+```ini
+DB_TYPE=postgresql
+DB_USER="postgres"
+DB_PASSWORD="sua_senha"
+DB_HOST="127.0.0.1"
+DB_PORT=5432
+DB_NAME=metamode
+```
+
+### 🔧 Outras Configurações Importantes
+
+```ini
+# Ambiente de execução
+ENVIRONMENT=development  # ou 'production'
+LOG_LEVEL=DEBUG          # DEBUG, INFO, WARNING, ERROR, CRITICAL
+
+# Segurança
+SECRET_KEY=sua_chave_secreta_aqui  # OBRIGATÓRIO alterar!
+
+# Sistema
+MAX_UPLOAD_SIZE_MB=500
+DEFAULT_TIMEZONE=America/Sao_Paulo
+ADMIN_SESSION_EXPIRATION=3600
+CAROUSEL_MEDIA_DURATION=5
+
+# Diretórios
+UPLOAD_DIR=uploads
+LOG_DIR=logs
+```
+
+### 📋 Descrição das Variáveis
 
 | Variável                 | Função                                                                 |
 |--------------------------|------------------------------------------------------------------------|
-| `ENVIRONMENT`           | Define o ambiente (`development` ativa o modo debug)                   |
-| `LOG_LEVEL`             | Nível de log (`DEBUG`, `INFO`, `WARNING`, `ERROR`)                     |
-| `SECRET_KEY`            | Chave para proteger cookies de sessão                                  |
-| `UPLOAD_DIR` / `LOG_DIR`| Diretórios criados automaticamente, usados para uploads e logs         |
-| `ADMIN_SESSION_EXPIRATION` | Tempo em segundos antes da sessão expirar                             |
+| `DB_TYPE`               | Tipo do banco: `mysql` ou `postgresql`                                |
+| `DB_USER/PASSWORD/HOST` | Credenciais de conexão com o banco de dados                           |
+| `ENVIRONMENT`           | `development` (debug ativo) ou `production`                           |
+| `SECRET_KEY`            | Chave para criptografia de sessões (⚠️ **OBRIGATÓRIO** alterar!)       |
+| `MAX_UPLOAD_SIZE_MB`    | Tamanho máximo de upload em MB                                        |
+| `CAROUSEL_MEDIA_DURATION` | Duração de cada mídia no carrossel (segundos)                       |
+| `ADMIN_SESSION_EXPIRATION` | Tempo de expiração da sessão em segundos                           |
+
+> 🔒 **Dica de Segurança:** Gere uma chave secreta forte com:
+> ```bash
+> python -c "import secrets; print(secrets.token_urlsafe(32))"
+> ```
 
 ---
 

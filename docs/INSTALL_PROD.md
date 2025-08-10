@@ -9,7 +9,7 @@ Este guia explica como instalar o Metamode em produção com banco de dados, NGI
 - VPS com Ubuntu 22.04+
 - Python 3.11+
 - Node.js 20+
-- MySQL ou MariaDB
+- **Banco de dados:** MySQL/MariaDB **OU** PostgreSQL
 - Git
 - NGINX + Certbot
 
@@ -32,16 +32,44 @@ pip install -r requirements.txt
 npm install
 npm run build:css:once
 
-cp .env.example .env
-# Edite .env com os dados reais
+# Configuração das variáveis de ambiente
+# Escolha o arquivo .env apropriado para seu banco:
+
+# Para MySQL/MariaDB:
+cp .env.mysql.example .env
+
+# Para PostgreSQL:
+cp .env.postgresql.example .env
+
+# ⚠️ IMPORTANTE: Edite .env com suas credenciais de produção
+# Altere SECRET_KEY, credenciais do banco e ENVIRONMENT=production
 ```
 
-### 3. Banco de dados
+### 3. Configuração do Banco de Dados
+
+**Para MySQL/MariaDB:**
 ```sql
 CREATE DATABASE metamode CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-CREATE USER 'metamode'@'localhost' IDENTIFIED BY 'metamode123';
-GRANT ALL PRIVILEGES ON metamode.* TO 'metamode'@'localhost';
+CREATE USER 'metamode_user'@'localhost' IDENTIFIED BY 'senha_forte_aqui';
+GRANT ALL PRIVILEGES ON metamode.* TO 'metamode_user'@'localhost';
+FLUSH PRIVILEGES;
 ```
+
+**Para PostgreSQL:**
+```sql
+-- Conecte como usuário postgres
+sudo -u postgres psql
+
+-- Crie o usuário e banco
+CREATE USER metamode_user WITH PASSWORD 'senha_forte_aqui';
+CREATE DATABASE metamode OWNER metamode_user;
+GRANT ALL PRIVILEGES ON DATABASE metamode TO metamode_user;
+
+-- Saia do psql
+\q
+```
+
+> 🔒 **Segurança:** Use senhas fortes e diferentes das mostradas nos exemplos!
 
 ### 4. Migrações e Seeds
 ```bash
