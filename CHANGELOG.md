@@ -7,6 +7,32 @@ Este projeto segue o versionamento [SemVer](https://semver.org/lang/pt-BR/).
 
 ---
 
+## [1.2.0] – 2025-01-20
+
+### Adicionado
+- **Suporte completo ao Docker** com containerização da aplicação
+- Dockerfile otimizado com multi-stage build para produção
+- docker-compose.yml com PostgreSQL e aplicação orquestrados
+- Script de inicialização automática do banco de dados (`init_docker.py`)
+- Variável `AUTO_INIT_DB` para controle de inicialização automática
+- Arquivo `.env.docker.example` com configurações padrão para Docker
+- Documentação completa de instalação via Docker (`INSTALL_DOCKER.md`)
+- Arquivo `.dockerignore` para otimização da build
+- Volumes persistentes para dados do banco e uploads
+- Configuração flexível de portas e credenciais via variáveis de ambiente
+- Execução automática de migrações Alembic na inicialização
+- Aplicação automática de scripts de seed (roles, permissões, usuários padrão)
+- Credenciais padrão pré-configuradas para desenvolvimento
+- Suporte a customização de credenciais para produção
+
+### Melhorado
+- Processo de instalação simplificado para apenas 2 comandos
+- Experiência de desenvolvimento mais rápida com containers
+- Isolamento completo do ambiente de desenvolvimento
+- Documentação expandida com exemplos práticos
+
+---
+
 ## [1.1.0] – 2025-01-20
 
 ### Adicionado
