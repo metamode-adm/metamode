@@ -1,5 +1,11 @@
 import asyncio
 import logging
+import sys
+import os
+
+# Adiciona o diretório raiz ao PYTHONPATH
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from src.backend.models.role_model import Role

@@ -14,7 +14,7 @@ cryptography==44.0.2
 decorator==5.2.1
 dnspython==2.7.0
 email_validator==2.2.0
-fastapi==0.115.12
+fastapi>=0.116.0
 greenlet==3.1.1
 h11>=0.16.0
 idna==3.10
