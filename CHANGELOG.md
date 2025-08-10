@@ -7,6 +7,25 @@ Este projeto segue o versionamento [SemVer](https://semver.org/lang/pt-BR/).
 
 ---
 
+## [1.1.0] – 2025-01-20
+
+### Adicionado
+- Suporte completo a múltiplos bancos de dados (MySQL/MariaDB e PostgreSQL)
+- Detecção automática do tipo de banco de dados baseada na variável `DB_TYPE`
+- Arquivos de configuração específicos para cada banco: `.env.mysql.example` e `.env.postgresql.example`
+- Arquivos de dependências específicos: `requirements-mysql.txt` e `requirements-postgresql.txt`
+- Configuração automática de drivers de banco (aiomysql para MySQL, asyncpg para PostgreSQL)
+- Documentação atualizada com instruções de instalação para ambos os bancos
+- Melhorias no sistema de migrações com suporte a múltiplos bancos
+
+### Alterado
+- Arquivo `config.py` agora suporta configuração dinâmica de banco de dados
+- Sistema de migrações Alembic atualizado para detectar automaticamente o tipo de banco
+- Documentação de instalação expandida com exemplos específicos para cada banco
+- Arquivo `requirements.txt` otimizado para dependências comuns
+
+---
+
 ## [1.0.1] – 2025-04-17
 
 ### Corrigido
