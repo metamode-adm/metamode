@@ -81,6 +81,7 @@ cp .env.postgresql.example .env
 
 Escolha um dos guias de instalação:
 
+- 🐳 [Instalação via Docker (Recomendado)](docs/INSTALL_DOCKER.md)
 - ✅ [Guia de Instalação Rápida (Linux/Windows)](docs/INSTALL_DEV.md)
 - 🏗️ [Guia de Instalação para Produção](docs/INSTALL_PROD.md)
 
