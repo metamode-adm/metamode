@@ -267,6 +267,32 @@ docker-compose up -d --build
 
 ---
 
+## 🐧 Sistemas Linux nos Containers Docker
+
+O Metamode utiliza **duas distribuições Linux otimizadas** para máxima performance e segurança:
+
+### 🐳 Container da Aplicação (`metamode-metamode-1`)
+- **Sistema**: **Debian 12 (Bookworm) Slim**
+- **Imagem base**: `python:3.11-slim`
+- **Características**: Versão minimalista com pacotes essenciais
+- **Uso**: Python, Node.js, FFmpeg, compiladores
+- **Tamanho**: ~45MB + dependências
+
+### 🗄️ Container do Banco (`metamode-db-1`)
+- **Sistema**: **Alpine Linux**
+- **Imagem base**: `postgres:15`
+- **Características**: Ultra-leve, focada em segurança
+- **Uso**: PostgreSQL 15
+- **Tamanho**: ~15MB + PostgreSQL
+
+### 🎯 Vantagens dessa Arquitetura
+- ✅ **Debian Slim**: Compatibilidade excelente com Python e Node.js
+- ✅ **Alpine**: Máxima segurança e menor superfície de ataque
+- ✅ **Otimização**: Cada container usa a distribuição ideal para sua função
+- ✅ **Performance**: Containers leves e rápidos para download e inicialização
+
+---
+
 ## 🌟 Vantagens do Docker
 
 - ✅ **Instalação simples**: Apenas 3 comandos
