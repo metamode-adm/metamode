@@ -38,11 +38,20 @@ async def create_roles(session: AsyncSession):
 async def create_permissions(session: AsyncSession):
     logger.info("Criando permissões padrão...")
 
+    # Verifica se as permissões já existem
+    existing_permissions = await session.execute(select(Permission.role_id))
+    existing_permission_role_ids = {perm[0] for perm in existing_permissions.fetchall()}
+
     # Recupera todas as roles
     roles = await session.execute(select(Role.id, Role.name))
     roles = roles.fetchall()
 
     for role_id, role_name in roles:
+        # Verifica se já existe permissão para esta role
+        if role_id in existing_permission_role_ids:
+            logger.info(f"Permissões para role '{role_name}' já existem, pulando...")
+            continue
+            
         logger.info(f"Criando permissões para o papel: {role_name}")
 
         if role_name == 'comum':

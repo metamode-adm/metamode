@@ -61,6 +61,33 @@ def check_database_connection():
         logger.error(f"❌ Erro ao conectar com banco de dados: {e}")
         return False
 
+def check_if_data_exists():
+    """Verifica se roles e usuários já existem no banco"""
+    try:
+        sys.path.append('/app')
+        from src.backend.core.database import async_session_maker
+        from src.backend.models.role_model import Role
+        from src.backend.models.user_model import User
+        from sqlalchemy.future import select
+        import asyncio
+        
+        async def check_data():
+            async with async_session_maker() as session:
+                # Verifica se existem roles
+                roles_result = await session.execute(select(Role))
+                roles_exist = len(roles_result.scalars().all()) > 0
+                
+                # Verifica se existem usuários
+                users_result = await session.execute(select(User))
+                users_exist = len(users_result.scalars().all()) > 0
+                
+                return roles_exist, users_exist
+        
+        return asyncio.run(check_data())
+    except Exception as e:
+        logger.error(f"❌ Erro ao verificar dados existentes: {e}")
+        return False, False
+
 def main():
     """Função principal de inicialização"""
     logger.info("🔧 Iniciando script de inicialização do Docker")
@@ -92,19 +119,28 @@ def main():
     if not run_command("alembic upgrade head", "Aplicando migrações do banco"):
         return False
     
-    # Executa seed de roles e permissões
-    if not run_command(
-        "PYTHONPATH=. python scripts/seed_roles_and_permissions.py",
-        "Criando roles e permissões padrão"
-    ):
-        return False
+    # Verifica se dados já existem
+    roles_exist, users_exist = check_if_data_exists()
     
-    # Executa seed de usuários padrão
-    if not run_command(
-        "PYTHONPATH=. python scripts/seed_default_users.py",
-        "Criando usuários padrão"
-    ):
-        return False
+    # Executa seed de roles e permissões apenas se não existirem
+    if not roles_exist:
+        if not run_command(
+            "PYTHONPATH=. python scripts/seed_roles_and_permissions.py",
+            "Criando roles e permissões padrão"
+        ):
+            return False
+    else:
+        logger.info("⏭️ Roles e permissões já existem, pulando seed...")
+    
+    # Executa seed de usuários padrão apenas se não existirem
+    if not users_exist:
+        if not run_command(
+            "PYTHONPATH=. python scripts/seed_default_users.py",
+            "Criando usuários padrão"
+        ):
+            return False
+    else:
+        logger.info("⏭️ Usuários já existem, pulando seed...")
     
     logger.info("🎉 Inicialização automática concluída com sucesso!")
     return True
